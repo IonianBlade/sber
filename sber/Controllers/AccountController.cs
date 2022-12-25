@@ -21,6 +21,7 @@ namespace sber.Controllers
 			var response = new LoginViewModel();
 			return View(response);
 		}
+
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel loginViewModel)
 		{
