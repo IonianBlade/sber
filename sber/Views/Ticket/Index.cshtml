@@ -1,0 +1,38 @@
+﻿
+
+@{
+   
+}
+
+@*<section class="space-sm flush-with-above">
+        <ul class="row feature-list feature-list-sm">
+            @foreach (var tickets in Model.Ticket)
+            {
+                <li class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                     
+                        <div class="card-body">
+                            <h4 class="card-title">@race.Title</h4>
+                            <p class="card-text">@race.Address.City, @race.Address.State</p>
+                        </div>
+                        <div class="card-footer card-footer-borderless d-flex justify-content-between">
+                            <div>
+                                <small>@race.RaceCategory</small>
+                            </div>
+                            @if (isAuthenticated && User.IsInRole("admin"))
+                            {
+                                <div>
+                                    <a type="button" class="btn btn-sm btn-outline-info" asp-controller="Race" asp-action="Edit" asp-route-id="@race.Id">
+                                        Edit
+                                    </a>
+                                    <a type="button" class="btn btn-sm btn-outline-danger" asp-controller="Race" asp-action="Delete" asp-route-id="@race.Id">
+                                        Delete
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+</section>*@

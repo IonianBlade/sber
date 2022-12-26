@@ -161,25 +161,23 @@ namespace sber.Migrations
                 name: "Tickets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    TicketId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PublishingDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EmloyeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    Employee = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.PrimaryKey("PK_Tickets", x => x.TicketId);
                     table.ForeignKey(
-                        name: "FK_Tickets_AspNetUsers_EmloyeeId",
-                        column: x => x.EmloyeeId,
+                        name: "FK_Tickets_AspNetUsers_Employee",
+                        column: x => x.Employee,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -222,9 +220,9 @@ namespace sber.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_EmloyeeId",
+                name: "IX_Tickets_Employee",
                 table: "Tickets",
-                column: "EmloyeeId");
+                column: "Employee");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

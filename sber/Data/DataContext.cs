@@ -11,5 +11,6 @@ namespace sber.Data
 
 		public DbSet<Employee> Employees { get; set; }
 		public DbSet<Ticket> Tickets { get; set; }
+		public DbSet<Address> Addresses { get; set; }
 	}
 }

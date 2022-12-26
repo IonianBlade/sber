@@ -12,8 +12,8 @@ using sber.Data;
 namespace sber.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221225112627_Init")]
-    partial class Init
+    [Migration("20221226144145_AddAddress")]
+    partial class AddAddress
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,12 +157,40 @@ namespace sber.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("sber.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("House")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Address");
+                });
+
             modelBuilder.Entity("sber.Models.Employee", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -222,6 +250,8 @@ namespace sber.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -235,22 +265,18 @@ namespace sber.Migrations
 
             modelBuilder.Entity("sber.Models.Ticket", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TicketId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmloyeeId")
-                        .IsRequired()
+                    b.Property<string>("Employee")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Priority")
                         .IsRequired()
@@ -267,9 +293,9 @@ namespace sber.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TicketId");
 
-                    b.HasIndex("EmloyeeId");
+                    b.HasIndex("Employee");
 
                     b.ToTable("Tickets");
                 });
@@ -325,15 +351,27 @@ namespace sber.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("sber.Models.Employee", b =>
+                {
+                    b.HasOne("sber.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
+                });
+
             modelBuilder.Entity("sber.Models.Ticket", b =>
                 {
                     b.HasOne("sber.Models.Employee", "Emloyee")
-                        .WithMany()
-                        .HasForeignKey("EmloyeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Tickets")
+                        .HasForeignKey("Employee");
 
                     b.Navigation("Emloyee");
+                });
+
+            modelBuilder.Entity("sber.Models.Employee", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }
