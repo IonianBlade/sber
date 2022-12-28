@@ -12,8 +12,8 @@ using sber.Data;
 namespace sber.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221226144145_AddAddress")]
-    partial class AddAddress
+    [Migration("20221226174740_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -179,7 +179,7 @@ namespace sber.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("sber.Models.Employee", b =>
@@ -188,9 +188,6 @@ namespace sber.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -250,8 +247,6 @@ namespace sber.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -265,17 +260,21 @@ namespace sber.Migrations
 
             modelBuilder.Entity("sber.Models.Ticket", b =>
                 {
-                    b.Property<int>("TicketId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AdressId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Employee")
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Priority")
@@ -293,9 +292,11 @@ namespace sber.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TicketId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("Employee");
+                    b.HasIndex("AdressId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Tickets");
                 });
@@ -351,27 +352,33 @@ namespace sber.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("sber.Models.Employee", b =>
-                {
-                    b.HasOne("sber.Models.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.Navigation("Address");
-                });
-
             modelBuilder.Entity("sber.Models.Ticket", b =>
                 {
-                    b.HasOne("sber.Models.Employee", "Emloyee")
-                        .WithMany("Tickets")
-                        .HasForeignKey("Employee");
+                    b.HasOne("sber.Models.Address", "Address")
+                        .WithMany("Ticket")
+                        .HasForeignKey("AdressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Emloyee");
+                    b.HasOne("sber.Models.Employee", "Employee")
+                        .WithMany("Ticket")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("sber.Models.Address", b =>
+                {
+                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("sber.Models.Employee", b =>
                 {
-                    b.Navigation("Tickets");
+                    b.Navigation("Ticket");
                 });
 #pragma warning restore 612, 618
         }

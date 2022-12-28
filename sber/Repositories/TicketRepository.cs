@@ -29,7 +29,7 @@ namespace sber.Repositories
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            return await _context.Tickets.FirstOrDefaultAsync(i => i.TicketId == id);
+            return await _context.Tickets.Include(i => i.Address).Include(e => e.Employee).FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public bool Save()

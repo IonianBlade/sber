@@ -6,7 +6,7 @@ namespace sber.Controllers
     public class TicketController : Controller
     {
         private readonly ITicketRepository _ticketRepository;
-        public TicketController( ITicketRepository ticketRepository)
+        public TicketController(ITicketRepository ticketRepository)
         {       
             _ticketRepository = ticketRepository;
         }
@@ -22,6 +22,22 @@ namespace sber.Controllers
         {
             Ticket ticket = await _ticketRepository.GetByIdAsync(id);
             return View(ticket);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Ticket ticket)
+        {
+   //         if(!ModelState.IsValid)
+   //         {
+			//	return View(ticket);
+			//}
+            _ticketRepository.Add(ticket);
+            return RedirectToAction("Index");
         }
     }
 }
