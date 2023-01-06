@@ -22,17 +22,22 @@ namespace sber.Repositories
             return Save();
         }
 
-        public async Task<IEnumerable<Ticket>> GetAllAsync()
+        public async Task<List<Ticket?>> GetAllAsync()
         {
             return await _context.Tickets.ToListAsync();
+            
         }
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
             return await _context.Tickets.Include(i => i.Address).Include(e => e.Employee).FirstOrDefaultAsync(i => i.Id == id);
         }
+		public async Task<Ticket> GetByIdAsyncNoTracking(int id)
+		{
+			return await _context.Tickets.Include(i => i.Address).Include(e => e.Employee).AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+		}
 
-        public bool Save()
+		public bool Save()
         {
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
@@ -40,7 +45,8 @@ namespace sber.Repositories
 
         public bool Update(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Update(ticket);
+            return Save();
         }
     }
 }

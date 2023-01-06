@@ -4,11 +4,12 @@ namespace sber.ViewModels
 {
 	public class LoginViewModel
 	{
-		[Display(Name = "Email Address")]
-		[Required(ErrorMessage = "Email address is required")]
+		[Display(Name = "Электронная почта")]
+		[Required(ErrorMessage = "Введите электронную почту")]
 		public string EmailAddress { get; set; }
 
-		[Required]
+        [Display(Name = "Пароль")]
+        [Required]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 	}

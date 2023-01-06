@@ -39,15 +39,15 @@ namespace sber.Controllers
 					var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
 					if (result.Succeeded)
 					{
-						return RedirectToAction("Tickets", "Home");
+						return RedirectToAction("Index", "Ticket");
 					}					
 				}
 				// password is incorrect
-				TempData["Error"] = "Wrong creditals. please try again";
+				TempData["Error"] = "Неверные данные. Попробуйте еще раз";
 				return View(loginViewModel);
 			}
 			// user not found
-			TempData["Error"] = "Wrong credentionals";
+			TempData["Error"] = "Неверные данные";
 			return View(loginViewModel);
 		}
 
@@ -64,12 +64,15 @@ namespace sber.Controllers
 
 			if (user != null)
 			{
-				TempData["Error"] = "This email adress is already used";
+				TempData["Error"] = "Этот адрес электронной почты уже используется";
 				return View(registerViewModel);
 			}
 
 			var newUser = new Employee()
 			{
+				Name = registerViewModel.Name,
+				Surname = registerViewModel.Surname,
+				Patronymic = registerViewModel.Patronymic,
 				Email = registerViewModel.EmailAddress,
 				UserName = registerViewModel.EmailAddress
 			};
@@ -80,14 +83,14 @@ namespace sber.Controllers
 			{
 				await _userManager.AddToRoleAsync(newUser, EmployeeRoles.Client);
 			}
-			return RedirectToAction("Tickets", "Home");
+			return RedirectToAction("Index", "Ticket");
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public async Task<IActionResult> Logout()
 		{
 			await _signInManager.SignOutAsync();
-			return RedirectToAction("Login", "Account");
+			return RedirectToAction("Index", "Ticket");
 		}
     }
 }

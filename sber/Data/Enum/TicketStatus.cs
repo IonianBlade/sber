@@ -2,8 +2,8 @@
 {
 	public enum TicketStatus
 	{
-		Open = 1,
-		Closed = 2,
-		Performed = 3,
+		Открыт,
+		Закрыт,
+		Решён,
 	}
 }

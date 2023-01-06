@@ -2,7 +2,8 @@
 {
 	public enum TicketPriority
 	{
-		High = 1,
-		Low = 2,
+		Низкий = 1,
+		Нормальный = 2,
+		Высокий = 3,
 	}
 }
