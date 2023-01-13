@@ -1,5 +1,6 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using sber.Helpers;
 using sber.Interfaces;
@@ -17,7 +18,7 @@ namespace sber.Services
 		public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
 		{
 			var uploadResult = new ImageUploadResult();
-			if(file.Length> 0)
+			if(file.Length > 0)
 			{
 				using var stream = file.OpenReadStream();
 				var uploadParams = new ImageUploadParams
@@ -27,6 +28,7 @@ namespace sber.Services
 				};
 				uploadResult = await _cloudinary.UploadAsync(uploadParams);
 			}
+			
 			return uploadResult;
 		}
 
@@ -36,5 +38,7 @@ namespace sber.Services
 			var result = await _cloudinary.DestroyAsync(deleteParams);
 			return result;
 		}
+
+	
 	}
 }

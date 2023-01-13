@@ -8,6 +8,8 @@ namespace sber.ViewModels
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public DateTime PublishingDate { get; set; }
+		public DateTime PlannedDate { get; set; }
+		public DateTime? SolvedDate { get; set; }
 		public Address Address { get; set; }
 		public string EmployeeId { get; set; }
 		public IFormFile Image { get; set; }

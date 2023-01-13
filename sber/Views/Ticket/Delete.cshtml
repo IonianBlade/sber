@@ -1,13 +1,13 @@
 ﻿@using sber.Data.Enum;
 @using sber.ViewModels;
-@model CreateTicketViewModel
+@model Ticket
 
 @{
-	ViewData["Title"] = "Создать";
+	ViewData["Title"] = "Удалить";
 }
 
-<form method="post" asp-action="Create" enctype="multipart/form-data">
-	<input type="hidden" id="EmployeeId" name="EmployeeId" asp-for="EmployeeId" />
+<form method="post" asp-action="Delete" enctype="multipart/form-data">
+	<input type="hidden" value="AddressId" id="AddressId" />
 	<div class="form-group">
 		<label asp-for="Title">Наименование</label>
 		<input asp-for="Title" class="form-control" placeholder="Наименование">
@@ -20,27 +20,32 @@
 	</div>
 	<div class="form-group">
 		<label asp-for="Status">Статус</label>
-		<select asp-for="Status" class="form-control" asp-items="@Html.GetEnumSelectList<TicketStatus>()">
-			<option>--Выбрать--</option>
+		<select asp-items="@Html.GetEnumSelectList<TicketStatus>()" asp-for="Status" class="form-control">
+			<option>--Select--</option>
 		</select>
 		<span asp-validation-for="Status" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Priority">Приоритет</label>
 		<select asp-for="Priority" class="form-control" asp-items="@Html.GetEnumSelectList<TicketPriority>()">
-			<option>--Выбрать--</option>
+			<option>--Select--</option>
 		</select>
 		<span asp-validation-for="Priority" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="PublishingDate">Дата публикации</label>
-		<input type="date" asp-for="PublishingDate" class="form-control" placeholder="Дата публикации">
+		<input asp-for="PublishingDate" class="form-control" placeholder="Дата публикации">
 		<span asp-validation-for="PublishingDate" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="PlannedDate">Плановая дата</label>
-		<input type="date" asp-for="PlannedDate" class="form-control" placeholder="Плановая дата">
+		<input asp-for="PlannedDate" class="form-control" placeholder="Плановая дата">
 		<span asp-validation-for="PlannedDate" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="SolvedDate">Дата решения</label>
+		<input asp-for="SolvedDate" class="form-control" placeholder="Дата решения">
+		<span asp-validation-for="SolvedDate" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Address.Name">Адрес</label>
@@ -49,8 +54,14 @@
 	</div>
 	<div class="form-group">
 		<label asp-for="Image">Изображение</label>
-		<input type="file" asp-for="Image" class="form-control" placeholder="Изображение">
+		<input type="file" asp-for="Image" class="form-control" placeholder="Image">
 		<span asp-validation-for="Image" class="text-danger"></span>
 	</div>
-	<button type="submit" class="btn btn-primary m-2">Создать</button>
 </form>
+<div class="form-group">
+	<form action="Delete" method="post">
+		<input type="hidden" asp-for="Id" /> 
+		<input type="submit" value="Удалить" class="btn btn-danger float-right mt-3" />
+	</form>
+</div>
+	

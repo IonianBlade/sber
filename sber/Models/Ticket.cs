@@ -14,7 +14,7 @@ namespace sber.Models
         public TicketPriority Priority { get; set; }
 		public DateTime PublishingDate { get; set; }
 		public DateTime PlannedDate { get; set; }
-		public DateTime SolvedDate { get; set; }
+		public DateTime? SolvedDate { get; set; }
 
         [ForeignKey("Employee")]
         public string? EmployeeId { get; set; }

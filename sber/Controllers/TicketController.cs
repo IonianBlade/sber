@@ -56,6 +56,8 @@ namespace sber.Controllers
                     Status = ticketVM.Status,
                     Priority = ticketVM.Priority,
                     PublishingDate = ticketVM.PublishingDate,
+                    PlannedDate = ticketVM.PlannedDate,
+                    SolvedDate = ticketVM.SolvedDate,
                     Address = new Address
                     {
                         Name = ticketVM.Address.Name,
@@ -83,6 +85,10 @@ namespace sber.Controllers
                 Status = ticket.Status,
                 Priority = ticket.Priority,
                 PublishingDate = ticket.PublishingDate,
+                EmployeeId = ticket.EmployeeId,
+                Employee = ticket.Employee,
+                PlannedDate = ticket.PlannedDate,
+                SolvedDate = ticket.SolvedDate,
                 URL = ticket.Image,
                 Address = ticket.Address,
                 AdressId = ticket.AdressId,
@@ -117,7 +123,14 @@ namespace sber.Controllers
 						Id = id,
 						Title = ticketVM.Title,
 						Description = ticketVM.Description,
+                        Priority= ticketVM.Priority,
+                        Status = ticketVM.Status,
+                        EmployeeId = ticketVM.EmployeeId,
+                        Employee = ticketVM.Employee,
+                        PublishingDate= ticketVM.PublishingDate,
 						Image = photoResult.Url.ToString(),
+                        PlannedDate = ticketVM.PlannedDate,
+                        SolvedDate = ticketVM.SolvedDate,
 						AdressId = ticketVM.AdressId,
 						Address = ticketVM.Address,
 					};
@@ -132,5 +145,20 @@ namespace sber.Controllers
 			return View(ticketVM);
 
 		}
-    }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var ticketDetails = await _ticketRepository.GetByIdAsync(id);
+            if (ticketDetails == null) return View("Error");
+            return View(ticketDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+		public async Task<IActionResult> DeleteTicket(int id)
+		{
+			var ticketDetails = await _ticketRepository.GetByIdAsync(id);
+			if (ticketDetails == null) return View("Error");
+	        _ticketRepository.Delete(ticketDetails);
+            return RedirectToAction("Index");
+		}
+	}
 }
