@@ -43,7 +43,7 @@ namespace sber.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateTicketViewModel ticketVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var result = await _photoService.AddPhotoAsync(ticketVM.Image);
 
@@ -53,30 +53,30 @@ namespace sber.Controllers
                     Description = ticketVM.Description,
                     Image = result.Url.ToString(),
                     EmployeeId = ticketVM.EmployeeId,
+                 
                     Status = ticketVM.Status,
                     Priority = ticketVM.Priority,
                     PublishingDate = ticketVM.PublishingDate,
                     PlannedDate = ticketVM.PlannedDate,
                     SolvedDate = ticketVM.SolvedDate,
-                    Address = new Address
-                    {
-                        Name = ticketVM.Address.Name,
-                    }
+                    Address = ticketVM.Address,
                 };
                 _ticketRepository.Add(ticket);
                 return RedirectToAction("Index");
             }
-            //else
-            //{
-            //    ModelState.AddModelError("", "Photo upload failed");
-            //}
-           return View(ticketVM);
+            else
+            {
+                ModelState.AddModelError("", "Не удалось загрузить фото");
+
+			}
+            return View(ticketVM);
       
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var ticket = await _ticketRepository.GetByIdAsync(id);
+			var curUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+			var ticket = await _ticketRepository.GetByIdAsync(id);
             if (ticket == null) return View("Error");
             var ticketVM = new EditTicketViewModel
             {
@@ -85,13 +85,15 @@ namespace sber.Controllers
                 Status = ticket.Status,
                 Priority = ticket.Priority,
                 PublishingDate = ticket.PublishingDate,
-                EmployeeId = ticket.EmployeeId,
-                Employee = ticket.Employee,
+				EmployeeId = ticket.EmployeeId,
+				Employee = ticket.Employee,
+				PerformerId = curUserId,
+				Performer = ticket.Performer,
                 PlannedDate = ticket.PlannedDate,
                 SolvedDate = ticket.SolvedDate,
                 URL = ticket.Image,
                 Address = ticket.Address,
-                AdressId = ticket.AdressId,
+                
 
             };
 			return View(ticketVM);
@@ -100,10 +102,8 @@ namespace sber.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EditTicketViewModel ticketVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-				//ModelState.AddModelError("", "Failed to edit ticket");
-				//return View("Edit");
 				var userTicket = await _ticketRepository.GetByIdAsyncNoTracking(id);
 				if (userTicket != null)
 				{
@@ -111,7 +111,7 @@ namespace sber.Controllers
 					{
 						await _photoService.DeletePhotoAsync(userTicket.Image);
 					}
-					catch (Exception ex)
+					catch
 					{
 						ModelState.AddModelError("", "Could not delete photo");
 						return View(ticketVM);
@@ -125,23 +125,22 @@ namespace sber.Controllers
 						Description = ticketVM.Description,
                         Priority= ticketVM.Priority,
                         Status = ticketVM.Status,
-                        EmployeeId = ticketVM.EmployeeId,
-                        Employee = ticketVM.Employee,
+						EmployeeId = ticketVM.EmployeeId,					
+						PerformerId = ticketVM.PerformerId,
                         PublishingDate= ticketVM.PublishingDate,
 						Image = photoResult.Url.ToString(),
                         PlannedDate = ticketVM.PlannedDate,
                         SolvedDate = ticketVM.SolvedDate,
-						AdressId = ticketVM.AdressId,
 						Address = ticketVM.Address,
 					};
 					_ticketRepository.Update(ticket);
 					return RedirectToAction("Index");
 				}
-				//else
-				//{
-				//	return View(ticketVM);
-				//}
-			}
+                else
+                {
+                    return View(ticketVM);
+                }
+            }
 			return View(ticketVM);
 
 		}

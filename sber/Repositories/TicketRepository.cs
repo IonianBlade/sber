@@ -30,11 +30,11 @@ namespace sber.Repositories
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            return await _context.Tickets.Include(i => i.Address).Include(e => e.Employee).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Tickets.Include(e => e.Employee).FirstOrDefaultAsync(i => i.Id == id);
         }
 		public async Task<Ticket> GetByIdAsyncNoTracking(int id)
 		{
-			return await _context.Tickets.Include(i => i.Address).Include(e => e.Employee).AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+			return await _context.Tickets.Include(e => e.Employee).AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
 		}
 
 		public bool Save()

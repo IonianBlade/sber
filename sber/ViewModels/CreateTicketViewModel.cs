@@ -10,7 +10,7 @@ namespace sber.ViewModels
 		public DateTime PublishingDate { get; set; }
 		public DateTime PlannedDate { get; set; }
 		public DateTime? SolvedDate { get; set; }
-		public Address Address { get; set; }
+		public string Address { get; set; }
 		public string EmployeeId { get; set; }
 		public IFormFile Image { get; set; }
 		public TicketStatus Status { get; set; }

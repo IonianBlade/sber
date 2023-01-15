@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sber.Data;
 
@@ -11,9 +12,10 @@ using sber.Data;
 namespace sber.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230114181614_somefixes")]
+    partial class somefixes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -155,6 +157,23 @@ namespace sber.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("sber.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("sber.Models.Employee", b =>
                 {
                     b.Property<string>("Id")
@@ -239,10 +258,11 @@ namespace sber.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("NVARCHAR(100)");
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AdressId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -251,14 +271,14 @@ namespace sber.Migrations
 
                     b.Property<string>("EmployeeId")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("EmployeeId");
+                        .HasColumnName("employee_id");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PerformerId")
                         .HasColumnType("nvarchar(450)")
-                        .HasColumnName("PerformerId");
+                        .HasColumnName("performer_id");
 
                     b.Property<DateTime>("PlannedDate")
                         .HasColumnType("datetime2");
@@ -281,6 +301,8 @@ namespace sber.Migrations
                         .HasColumnType("NVARCHAR(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("EmployeeId");
 
@@ -342,6 +364,10 @@ namespace sber.Migrations
 
             modelBuilder.Entity("sber.Models.Ticket", b =>
                 {
+                    b.HasOne("sber.Models.Address", "Address")
+                        .WithMany("Ticket")
+                        .HasForeignKey("AddressId");
+
                     b.HasOne("sber.Models.Employee", "Employee")
                         .WithMany("TicketEmployees")
                         .HasForeignKey("EmployeeId")
@@ -352,9 +378,16 @@ namespace sber.Migrations
                         .HasForeignKey("PerformerId")
                         .HasConstraintName("FK_ticket_performer");
 
+                    b.Navigation("Address");
+
                     b.Navigation("Employee");
 
                     b.Navigation("Performer");
+                });
+
+            modelBuilder.Entity("sber.Models.Address", b =>
+                {
+                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("sber.Models.Employee", b =>

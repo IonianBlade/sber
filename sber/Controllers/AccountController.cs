@@ -90,7 +90,7 @@ namespace sber.Controllers
 		public async Task<IActionResult> Logout()
 		{
 			await _signInManager.SignOutAsync();
-			return RedirectToAction("Index", "Ticket");
+			return RedirectToAction("Index", "Home");
 		}
     }
 }

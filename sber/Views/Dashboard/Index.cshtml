@@ -2,10 +2,10 @@
 @model DashboardViewModel
 
 @{
-	ViewData["Title"] = "Мои аявки";
+	ViewData["Title"] = "Мои заявки";
 }
 
-	<div class="album py-5">
+	<div class="album">
 		<div class="container">
 			<h2 class="display-4 fw-normal">Мои заявки</h2>
 			<a type="button" class="btn btn-primary m-2 " asp-area="" asp-controller="Ticket" asp-action="Create">Создать заявку</a>
@@ -46,6 +46,28 @@
 	</div>
 
 
-
+@*<table class="table table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Position</th>
+				<th>Office</th>
+				<th>Age</th>
+				<th>Start date</th>
+				<th>Salary</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Tiger Nixon</td>
+				<td>System Architect</td>
+				<td>Edinburgh</td>
+				<td>61</td>
+				<td>2011-04-25</td>
+				<td>$320,800</td>
+			</tr>
+		</tbody>
+</table>
+*@
 
 

@@ -1,7 +1,7 @@
 ﻿@model Ticket
 
 @{
-    ViewData["Title"] = "Детали";
+	ViewData["Title"] = "Детали";
 }
 <div class="main-container">
 
@@ -47,46 +47,46 @@
 				<li class="list-group-item">
 					<div class="d-flex justify-content-between">
 						<div><i class="icon-share mr-1"></i>House</div>
-						<span>@Model.Address.Name</span>
+						<span>@Model.Address</span>
+					</div>
+				</li>
+
+
+
+			</ul>
+
+		</div>
+
+
+		<div class="card mt-5">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<div><i class="icon-share mr-1"></i>Заказчик</div>
+				</li>
+				<li class="list-group-item">
+					<div class="d-flex justify-content-between">
+						<div><i class="icon-share mr-1"></i>Name</div>
+						<span>@Model.EmployeeId</span>
+					</div>
+				</li>
+			
+			</ul>
+		</div>
+
+		<div class="card mt-5">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<div><i class="icon-share mr-1"></i>Исполнитель</div>
+				</li>
+				<li class="list-group-item">
+					<div class="d-flex justify-content-between">
+						<div><i class="icon-share mr-1"></i>Имя</div>
+						<span>@Model.PerformerId</span>
 					</div>
 				</li>
 				
-				
-			
 			</ul>
-			
 		</div>
-
-		
-			<div class="card mt-5">
-				<ul class="list-group list-group-flush">
-				<li class="list-group-item">
-					<div><i class="icon-share mr-1"></i>Создал</div>
-				</li>
-					<li class="list-group-item">
-						<div class="d-flex justify-content-between">
-							<div><i class="icon-share mr-1"></i>Surname</div>
-							<span>@Model.Employee.Surname</span>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="d-flex justify-content-between">
-							<div><i class="icon-share mr-1"></i>Name</div>
-							<span>@Model.Employee.Name</span>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="d-flex justify-content-between">
-							<div><i class="icon-share mr-1"></i>Patronymic</div>
-							<span>@Model.Employee.Patronymic</span>
-						</div>
-					</li>
-				</ul>
-			</div>
-	
-		
-			
-		
 	</div>
 </div>
 

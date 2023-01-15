@@ -7,7 +7,7 @@
 }
 
 <form method="post" asp-action="Edit" enctype="multipart/form-data">
-	<input type="hidden" id="EmployeeId" name="EmployeeId" asp-for="EmployeeId" />
+	<input type="hidden" id="PerformerId" name="PerformerId" asp-for="PerformerId" />
 	<div class="form-group">
 		<label asp-for="Title">Наименование</label>
 		<input asp-for="Title" class="form-control" placeholder="Наименование">
@@ -37,10 +37,15 @@
 		<input type="date" asp-for="PublishingDate" class="form-control" placeholder="Дата публикации">
 		<span asp-validation-for="PublishingDate" class="text-danger"></span>
 	</div>
-    <div class="form-group">
+	<div class="form-group">
 		<label asp-for="PlannedDate">Плановая дата</label>
 		<input type="date" asp-for="PlannedDate" class="form-control" placeholder="Плановая дата">
 		<span asp-validation-for="PlannedDate" class="text-danger"></span>
+	</div>
+    <div class="form-group">
+		<label asp-for="EmployeeId">EmployeeId </label>
+		<input  asp-for="EmployeeId" class="form-control" placeholder="EmployeeId">
+		<span asp-validation-for="EmployeeId" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="SolvedDate">Дата решения</label>
@@ -48,9 +53,9 @@
 		<span asp-validation-for="SolvedDate" class="text-danger"></span>
 	</div>
 	<div class="form-group">
-		<label asp-for="Address.Name">Адрес</label>
-		<input asp-for="Address.Name" class="form-control" placeholder="Адрес">
-		<span asp-validation-for="Address.Name" class="text-danger"></span>
+		<label asp-for="Address">Адрес</label>
+		<input asp-for="Address" class="form-control" placeholder="Адрес">
+		<span asp-validation-for="Address" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Image">Изображение</label>
