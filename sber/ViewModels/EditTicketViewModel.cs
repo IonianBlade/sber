@@ -1,4 +1,5 @@
-﻿using sber.Data.Enum;
+﻿	using sber.Data.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace sber.ViewModels
 {
@@ -7,8 +8,8 @@ namespace sber.ViewModels
 		public int Id { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
-		public DateTime PublishingDate { get; set; }
-		public DateTime PlannedDate { get; set; }
+		public DateTime? PublishingDate { get; set; }
+		public DateTime? PlannedDate { get; set; }	
 		public DateTime? SolvedDate { get; set; }
 		public string? PerformerId { get; set; }
 		public Employee? Performer { get; set; }

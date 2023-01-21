@@ -5,46 +5,51 @@
 }
 
 
-	<div >
-		<div class="list-group">
-			<div class="row">
-				@foreach (var item in Model)
-				{
-						<div class="list-group-item">
-							<div>
-								<div class="d-flex justify-content-between">
-									<div >
-									<p class="card-text">@item.Title</p>
-									<p class="card-text">@item.Description</p>
-								</div>
-								<div>
-									<p class="card-text">Статус: @item.Status</p>
-									<p class="card-text">Приоритет: @item.Priority</p>
-								</div>
-								<div>
-									<p class="card-text">Дата публикации: @item.PublishingDate</p>
-									<p class="card-text">Плановая дата: @item.PlannedDate</p>
-									<p class="card-text">Дата решения: @item.SolvedDate</p>
-								</div>
-								</div>
-
-
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<a type="btn btn-success" asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Подробнее</a>								
-									
-										<a type="btn btn-success" asp-controller="Ticket" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Удалить</a>
-										<a type="btn btn-success" asp-controller="Ticket" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-
-									
-								</div>
-								</div>
-							</div>
-						</div>
-				}
-			</div>
-		</div>
-	</div>
-
-
+<form asp-action="Index" asp-controller="Ticket" method="get">
+	
+		Поиск: <input type="text" name="SearchString"  />
+		<input type="submit" value="Искать" />
+	
+</form>
+<table class="table table-responsive table-striped">
+	<thead>
+		<tr>
+			<th>Наименование</th>
+			<th>Статус</th>
+			<th>Приоритет</th>
+			<th>Дата публикации</th>
+			<th>Плановая дата</th>
+			<th>Дата решения</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var ticket in Model)
+		{
+			<tr>
+				<td>@ticket.Title</td>
+				<td>@ticket.Status</td>
+				<td>@ticket.Priority</td>
+				<td>@ticket.PublishingDate</td>
+				<td>@ticket.PlannedDate</td>
+				<td>@ticket.SolvedDate</td>
+				
+				
+				<td>
+					<a type="btn btn-success" asp-controller="Ticket" asp-action="Detail" asp-route-id="@ticket.Id" class="btn btn-success"><i class="bi bi-info-square-fill"></i></a>
+				</td>
+				<td>
+					<a type="btn btn-success" asp-controller="Ticket" asp-action="Edit" asp-route-id="@ticket.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+				</td>
+				<td>
+					<a type="btn btn-success" asp-controller="Ticket" asp-action="Delete" asp-route-id="@ticket.Id" class="btn btn-danger"> <i class="bi bi-trash-fill"></i></a>
+				</td>				
+			</tr>
+		}
+	</tbody>
+</table>
+	
+		
 

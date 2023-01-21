@@ -1,0 +1,44 @@
+﻿@using sber.ViewModels;
+@model EditUserDashboardViewModel
+
+<div class="row">
+    <div class="col-12 col-md-8 order-md-1">
+        <form asp-action="EditUserProfile" method="post" class="row" enctype="multipart/form-data">
+            <input type="hidden" id="Id" name="Id" asp-for="Id" />
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Name">Имя:</label>
+                    <input asp-for="Name" type="text" class="form-control form-control-lg" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Surname">Фамилия:</label>
+                    <input asp-for="Surname" type="text" class="form-control form-control-lg" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Patronymic">Отчество:</label>
+                    <input asp-for="Patronymic" type="text" class="form-control form-control-lg" />
+                    <span asp-validation-for="Patronymic" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label asp-for="Image">Изображение:</label>
+                    <input type="file" asp-for="Image" class="form-control form-control-lg" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+            </div> 
+            <div class="col-12">
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+               

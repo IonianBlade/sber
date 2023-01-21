@@ -20,7 +20,7 @@
 	</div>
 	<div class="form-group">
 		<label asp-for="Status">Статус</label>
-		<select asp-for="Status" class="form-control" asp-items="@Html.GetEnumSelectList<TicketStatus>()">
+		<select asp-for="Status" disabled="true" class="form-control" asp-items="@Html.GetEnumSelectList<TicketStatus>()">
 			<option>--Выбрать--</option>
 		</select>
 		<span asp-validation-for="Status" class="text-danger"></span>
@@ -34,7 +34,7 @@
 	</div>
 	<div class="form-group">
 		<label asp-for="PublishingDate">Дата публикации</label>
-		<input type="date" asp-for="PublishingDate" class="form-control" placeholder="Дата публикации">
+		<input type="date" readonly asp-for="PublishingDate" class="form-control" placeholder="Дата публикации">
 		<span asp-validation-for="PublishingDate" class="text-danger"></span>
 	</div>
 	<div class="form-group">
@@ -47,10 +47,26 @@
 		<input asp-for="Address" class="form-control" placeholder="Адрес">
 		<span asp-validation-for="Address" class="text-danger"></span>
 	</div>
-	<div class="form-group">
+	@*<div class="form-group">
 		<label asp-for="Image">Изображение</label>
 		<input type="file" asp-for="Image" class="form-control" placeholder="Изображение">
 		<span asp-validation-for="Image" class="text-danger"></span>
-	</div>
+	</div>*@
 	<button type="submit" class="btn btn-primary m-2">Создать</button>
 </form>
+
+@*
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyCagdShLqeTlbjGE0dH83n9GTwejG7fHTg"></script>
+	<script>
+		google.maps.event.addDomListener(window, 'load', function(){
+			var options = {
+				types: ['(cities)'],
+				componentRestrictions: {country: "in"}
+			};
+			var input = document.getElementById('Address');
+			var places = new google.maps.places.Autocomplete(input, options);
+		});
+	</script>
+}*@

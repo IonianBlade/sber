@@ -1,0 +1,113 @@
+﻿@using sber.ViewModels;
+@model UserDetailViewModel
+
+<div class="main-container">
+
+	<div class="col-12 col-md-4">
+		<div class="card">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<div class="d-flex justify-content-between">
+						<div><i class="icon-text-document mr-1"></i>Имя</div>
+						<span>@Model.Name</span>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="d-flex justify-content-between">
+						<div><i class="icon-edit mr-1"></i>Фамилия</div>
+						<span>@Model.Surname</span>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="d-flex justify-content-between">
+						<div><i class="icon-thumbs-up mr-1"></i>Отчество</div>
+						<span>@Model.Patronymic</span>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="d-flex justify-content-between">
+						<div><i class="icon-thumbs-up mr-1"></i>Изображение</div>
+						<span>@Model.ProfileImageUrl</span>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="d-flex justify-content-between">
+						<div><i class="icon-thumbs-up mr-1"></i>Роль</div>
+						<span>@Model.Role</span>
+					</div>
+				</li>
+
+
+			</ul>
+
+		</div>
+
+
+	</div>
+
+	<div>Созданные заявки</div>
+	@foreach (var item in @Model.EmployeeTickets)
+	{
+		<div class="list-group-item">
+			<div>
+				<div class="d-flex justify-content-between">
+					<div>
+						<p class="card-text">@item.Title</p>
+						<p class="card-text">@item.Description</p>
+					</div>
+					<div>
+						<p class="card-text">Статус: @item.Status</p>
+						<p class="card-text">Приоритет: @item.Priority</p>
+					</div>
+					<div>
+						<p class="card-text">Дата публикации: @item.PublishingDate</p>
+						<p class="card-text">Плановая дата: @item.PlannedDate</p>
+						<p class="card-text">Дата решения: @item.SolvedDate</p>
+					</div>
+				</div>
+
+
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="btn-group">
+						<a type="btn btn-success" asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+
+	<div>Выполненные заявки</div>
+	@foreach (var item in @Model.PerformerTickets)
+	{
+		<div class="list-group-item">
+			<div>
+				<div class="d-flex justify-content-between">
+					<div>
+						<p class="card-text">@item.Title</p>
+						<p class="card-text">@item.Description</p>
+					</div>
+					<div>
+						<p class="card-text">Статус: @item.Status</p>
+						<p class="card-text">Приоритет: @item.Priority</p>
+					</div>
+					<div>
+						<p class="card-text">Дата публикации: @item.PublishingDate</p>
+						<p class="card-text">Плановая дата: @item.PlannedDate</p>
+						<p class="card-text">Дата решения: @item.SolvedDate</p>
+					</div>
+				</div>
+
+
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="btn-group">
+						<a type="btn btn-success" asp-controller="Ticket" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+			
+
+

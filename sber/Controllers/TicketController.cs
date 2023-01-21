@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using sber.Data.Enum;
 using sber.Interfaces;
 using sber.ViewModels;
 
@@ -6,6 +8,7 @@ namespace sber.Controllers
 {
     public class TicketController : Controller
     {
+
         private readonly ITicketRepository _ticketRepository;
 		private readonly IPhotoService _photoService;
 		private readonly IHttpContextAccessor _httpContextAccessor;
@@ -17,11 +20,23 @@ namespace sber.Controllers
 			_httpContextAccessor = httpContextAccessor;
 		}
 
-        public async Task<IActionResult> Index()
+		
+
+		public async Task<IActionResult> Index(string searchString)
         {
-            List<Ticket?> tickets = await _ticketRepository.GetAllAsync();
-            return View(tickets);
-        }
+            if(searchString != null)
+            {
+				var searchTickets = await _ticketRepository.SearchTicketAsync(searchString);
+				return View(searchTickets.ToList());
+			}
+            else
+            {
+				List<Ticket?> tickets = await _ticketRepository.GetAllAsync();
+				return View(tickets);
+			}
+           
+		
+		}
 
        
         public async Task<IActionResult> Detail(int id)
@@ -30,12 +45,19 @@ namespace sber.Controllers
             return View(ticket);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var curUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
-            var createTicketViewModel = new CreateTicketViewModel
+			var curDatePublishingDate = DateTime.Now;
+            var defaultStatus = TicketStatus.Открыт;
+			//var lowPriority = curDatePublishingDate.AddDays(3);
+
+		    var createTicketViewModel = new CreateTicketViewModel
             {
+               
+                PublishingDate = curDatePublishingDate,
                 EmployeeId = curUserId,
+                Status = defaultStatus,
             };
             return View(createTicketViewModel);
         }
@@ -43,17 +65,18 @@ namespace sber.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateTicketViewModel ticketVM)
         {
+            
             if (ModelState.IsValid)
             {
-                var result = await _photoService.AddPhotoAsync(ticketVM.Image);
+                
+				
 
                 var ticket = new Ticket
                 {
                     Title = ticketVM.Title,
                     Description = ticketVM.Description,
-                    Image = result.Url.ToString(),
-                    EmployeeId = ticketVM.EmployeeId,
-                 
+                   
+                    EmployeeId = ticketVM.EmployeeId,                
                     Status = ticketVM.Status,
                     Priority = ticketVM.Priority,
                     PublishingDate = ticketVM.PublishingDate,
@@ -76,13 +99,15 @@ namespace sber.Controllers
         public async Task<IActionResult> Edit(int id)
         {
 			var curUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+			var defaultStatus = TicketStatus.Выполняется;
+			var curSolvedDate = DateTime.Now;
 			var ticket = await _ticketRepository.GetByIdAsync(id);
             if (ticket == null) return View("Error");
             var ticketVM = new EditTicketViewModel
             {
                 Title = ticket.Title,
                 Description = ticket.Description,
-                Status = ticket.Status,
+                Status = defaultStatus,
                 Priority = ticket.Priority,
                 PublishingDate = ticket.PublishingDate,
 				EmployeeId = ticket.EmployeeId,
@@ -90,7 +115,7 @@ namespace sber.Controllers
 				PerformerId = curUserId,
 				Performer = ticket.Performer,
                 PlannedDate = ticket.PlannedDate,
-                SolvedDate = ticket.SolvedDate,
+                SolvedDate = curSolvedDate,
                 URL = ticket.Image,
                 Address = ticket.Address,
                 
@@ -159,5 +184,11 @@ namespace sber.Controllers
 	        _ticketRepository.Delete(ticketDetails);
             return RedirectToAction("Index");
 		}
+
+       
+
+    
+
+
 	}
 }

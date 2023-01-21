@@ -30,11 +30,11 @@ namespace sber.Repositories
 
         public async Task<Ticket> GetByIdAsync(int id)
         {
-            return await _context.Tickets.Include(e => e.Employee).FirstOrDefaultAsync(i => i.Id == id);
+            return await _context.Tickets.Include(e => e.Employee).Include(p => p.Performer).FirstOrDefaultAsync(i => i.Id == id);
         }
 		public async Task<Ticket> GetByIdAsyncNoTracking(int id)
 		{
-			return await _context.Tickets.Include(e => e.Employee).AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
+			return await _context.Tickets.Include(e => e.Employee).Include(e => e.Performer).AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
 		}
 
 		public bool Save()
@@ -43,7 +43,12 @@ namespace sber.Repositories
             return saved > 0 ? true : false;
         }
 
-        public bool Update(Ticket ticket)
+		public async Task<List<Ticket>> SearchTicketAsync(string searchString)
+		{
+            return await _context.Tickets.Where(t => t.Title.Contains(searchString)).ToListAsync();            
+        }
+
+		public bool Update(Ticket ticket)
         {
             _context.Update(ticket);
             return Save();
