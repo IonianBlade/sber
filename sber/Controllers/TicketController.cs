@@ -8,7 +8,6 @@ namespace sber.Controllers
 {
     public class TicketController : Controller
     {
-
         private readonly ITicketRepository _ticketRepository;
 		private readonly IPhotoService _photoService;
 		private readonly IHttpContextAccessor _httpContextAccessor;
@@ -19,9 +18,7 @@ namespace sber.Controllers
 			_photoService = photoService;
 			_httpContextAccessor = httpContextAccessor;
 		}
-
 		
-
 		public async Task<IActionResult> Index(string searchString)
         {
             if(searchString != null)
@@ -33,11 +30,8 @@ namespace sber.Controllers
             {
 				List<Ticket?> tickets = await _ticketRepository.GetAllAsync();
 				return View(tickets);
-			}
-           
-		
+			}          		
 		}
-
        
         public async Task<IActionResult> Detail(int id)
         {
@@ -50,11 +44,8 @@ namespace sber.Controllers
             var curUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
 			var curDatePublishingDate = DateTime.Now;
             var defaultStatus = TicketStatus.Открыт;
-			//var lowPriority = curDatePublishingDate.AddDays(3);
-
 		    var createTicketViewModel = new CreateTicketViewModel
-            {
-               
+            {               
                 PublishingDate = curDatePublishingDate,
                 EmployeeId = curUserId,
                 Status = defaultStatus,
@@ -67,15 +58,11 @@ namespace sber.Controllers
         {
             
             if (ModelState.IsValid)
-            {
-                
-				
-
+            {                				
                 var ticket = new Ticket
                 {
                     Title = ticketVM.Title,
-                    Description = ticketVM.Description,
-                   
+                    Description = ticketVM.Description,                   
                     EmployeeId = ticketVM.EmployeeId,                
                     Status = ticketVM.Status,
                     Priority = ticketVM.Priority,
@@ -92,8 +79,7 @@ namespace sber.Controllers
                 ModelState.AddModelError("", "Не удалось загрузить фото");
 
 			}
-            return View(ticketVM);
-      
+            return View(ticketVM);      
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -117,9 +103,7 @@ namespace sber.Controllers
                 PlannedDate = ticket.PlannedDate,
                 SolvedDate = curSolvedDate,
                 URL = ticket.Image,
-                Address = ticket.Address,
-                
-
+                Address = ticket.Address,                
             };
 			return View(ticketVM);
 		}
@@ -132,15 +116,7 @@ namespace sber.Controllers
 				var userTicket = await _ticketRepository.GetByIdAsyncNoTracking(id);
 				if (userTicket != null)
 				{
-					try
-					{
-						await _photoService.DeletePhotoAsync(userTicket.Image);
-					}
-					catch
-					{
-						ModelState.AddModelError("", "Could not delete photo");
-						return View(ticketVM);
-					}
+					
 					var photoResult = await _photoService.AddPhotoAsync(ticketVM.Image);
 
 					var ticket = new Ticket
@@ -183,12 +159,6 @@ namespace sber.Controllers
 			if (ticketDetails == null) return View("Error");
 	        _ticketRepository.Delete(ticketDetails);
             return RedirectToAction("Index");
-		}
-
-       
-
-    
-
-
+		}           
 	}
 }

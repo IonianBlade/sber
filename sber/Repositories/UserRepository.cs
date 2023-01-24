@@ -44,7 +44,12 @@ namespace sber.Repositories
 		{
 			return await _context.Users.FindAsync(id);
 		}
-	
+
+		public async Task<Employee> GetUserRoleAsync(string id)
+		{
+			return await _context.
+		}
+
 		public bool Save()
 		{
 			var saved = _context.SaveChanges();

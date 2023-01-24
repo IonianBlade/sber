@@ -9,51 +9,51 @@
 <form method="post" asp-action="Delete" enctype="multipart/form-data">
 	<div class="form-group">
 		<label asp-for="Title">Наименование</label>
-		<input asp-for="Title" class="form-control" placeholder="Наименование">
+		<input asp-for="Title" readonly class="form-control" placeholder="Наименование">
 		<span asp-validation-for="Title" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Description">Описание</label>
-		<input asp-for="Description" class="form-control" placeholder="Описание">
+		<input asp-for="Description" readonly class="form-control" placeholder="Описание">
 		<span asp-validation-for="Description" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Status">Статус</label>
-		<select asp-items="@Html.GetEnumSelectList<TicketStatus>()" asp-for="Status" class="form-control">
+		<select disabled="true" asp-items="@Html.GetEnumSelectList<TicketStatus>()" asp-for="Status" class="form-control">
 			<option>--Select--</option>
 		</select>
 		<span asp-validation-for="Status" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Priority">Приоритет</label>
-		<select asp-for="Priority" class="form-control" asp-items="@Html.GetEnumSelectList<TicketPriority>()">
+		<select disabled="true" asp-for="Priority" class="form-control" asp-items="@Html.GetEnumSelectList<TicketPriority>()">
 			<option>--Select--</option>
 		</select>
 		<span asp-validation-for="Priority" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="PublishingDate">Дата публикации</label>
-		<input asp-for="PublishingDate" class="form-control" placeholder="Дата публикации">
+		<input readonly asp-for="PublishingDate" class="form-control" placeholder="Дата публикации">
 		<span asp-validation-for="PublishingDate" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="PlannedDate">Плановая дата</label>
-		<input asp-for="PlannedDate" class="form-control" placeholder="Плановая дата">
+		<input readonly asp-for="PlannedDate" class="form-control" placeholder="Плановая дата">
 		<span asp-validation-for="PlannedDate" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="SolvedDate">Дата решения</label>
-		<input asp-for="SolvedDate" class="form-control" placeholder="Дата решения">
+		<input readonly asp-for="SolvedDate" class="form-control" placeholder="Дата решения">
 		<span asp-validation-for="SolvedDate" class="text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Address">Адрес</label>
-		<input asp-for="Address" class="form-control" placeholder="Адрес">
+		<input readonly asp-for="Address" class="form-control" placeholder="Адрес">
 		<span asp-validation-for="Address" class="text-danger"></span>
 	</div>
-	<div class="form-group">
+	<div class="form-group" hidden>
 		<label asp-for="Image">Изображение</label>
-		<input type="file" asp-for="Image" class="form-control" placeholder="Image">
+		<input readonly type="file" asp-for="Image" class="form-control" placeholder="Image">
 		<span asp-validation-for="Image" class="text-danger"></span>
 	</div>
 </form>
