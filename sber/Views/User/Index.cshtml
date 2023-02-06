@@ -14,8 +14,9 @@
 							<div>
 								<p class="card-text">@item.Surname</p>
 								<p class="card-text">@item.Name</p>								
-								<p class="card-text">@item.Patronymic</p>								
-								
+								<p class="card-text">@item.Patronymic</p>
+								<p class="card-text">@string.Join(" , ", item.Roles.ToList())</p>
+
 							</div>							
 						</div>
 						<div class="d-flex justify-content-between align-items-center">

@@ -1,16 +1,19 @@
 ﻿namespace sber.Data
 {
-	public partial class DataContext : IdentityDbContext<Employee>
+	public class DataContext : IdentityDbContext<Employee>
 	{
 		public DataContext(DbContextOptions<DataContext> context) : base(context)
 		{
 
 		}
+		
 		public DbSet<Employee> Employees { get; set; }
 		public DbSet<Ticket> Tickets { get; set; }
-
+		public DbSet<Bank> Banks { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			
+
 			modelBuilder.Entity<Ticket>(entity => {
 				entity.Property(e => e.EmployeeId).HasColumnName("EmployeeId");
 				entity.Property(e => e.PerformerId).HasColumnName("PerformerId");

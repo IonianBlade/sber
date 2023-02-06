@@ -2,9 +2,9 @@
 {
 	public static class EmployeeRoles
 	{
-		public const string Admin = "Admin";
-		public const string Engineer = "Engineer";
-		public const string Client = "Client";
+		public const string Admin = "Администратор";
+		public const string Engineer = "Инженер";
+		public const string Client = "Клиент";
 
 	}
 }

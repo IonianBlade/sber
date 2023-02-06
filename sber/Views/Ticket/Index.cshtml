@@ -20,9 +20,9 @@
 			<th>Дата публикации</th>
 			<th>Плановая дата</th>
 			<th>Дата решения</th>
-			<th></th>
-			<th></th>
-			<th></th>
+			<th colspan="3">Исполнитель</th>
+			<th colspan="3">Действия</th>
+		
 		</tr>
 	</thead>
 	<tbody>
@@ -35,8 +35,12 @@
 				<td>@ticket.PublishingDate</td>
 				<td>@ticket.PlannedDate</td>
 				<td>@ticket.SolvedDate</td>
-				
-				
+				@if(ticket.Performer != null)
+				{
+					<td style="empty-cells:show">@ticket.Performer.Surname</td>
+					<td style="empty-cells:show">@ticket.Performer.Name</td>
+					<td style="empty-cells:show">@ticket.Performer.Patronymic</td>
+				}
 				<td>
 					<a type="btn btn-success" asp-controller="Ticket" asp-action="Detail" asp-route-id="@ticket.Id" class="btn btn-success"><i class="bi bi-info-square-fill"></i></a>
 				</td>

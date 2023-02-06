@@ -24,8 +24,7 @@ namespace sber.Repositories
 
         public async Task<List<Ticket?>> GetAllAsync()
         {
-            return await _context.Tickets.ToListAsync();
-            
+            return await _context.Tickets.Include(p => p.Performer).ToListAsync();            
         }
 
         public async Task<Ticket> GetByIdAsync(int id)

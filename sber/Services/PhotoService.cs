@@ -1,6 +1,5 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using sber.Helpers;
 using sber.Interfaces;

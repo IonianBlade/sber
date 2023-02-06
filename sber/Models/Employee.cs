@@ -18,5 +18,8 @@ namespace sber.Models
 		public virtual ICollection<Ticket> TicketEmployees { get; set; }
 		public virtual ICollection<Ticket> TicketPerformers { get; set; }
 		
+		
 	}
+
 }
+

@@ -1,4 +1,5 @@
-﻿using sber.Interfaces;
+﻿using Microsoft.AspNetCore.Identity;
+using sber.Interfaces;
 using sber.Models;
 
 namespace sber.Repositories
@@ -6,12 +7,12 @@ namespace sber.Repositories
 	public class UserRepository : IUserRepository
 	{
 		private readonly DataContext _context;
-		
+		private readonly UserManager<Employee> _userManager;
 
-		public UserRepository(DataContext context)
+		public UserRepository(DataContext context, UserManager<Employee> userManager)
 		{
 			_context = context;
-			
+			_userManager = userManager;
 		}
 		public bool Add(Employee employee)
 		{
@@ -45,9 +46,9 @@ namespace sber.Repositories
 			return await _context.Users.FindAsync(id);
 		}
 
-		public async Task<Employee> GetUserRoleAsync(string id)
+		public async Task<List<string>> GetUserRoleAsync(Employee employee)
 		{
-			return await _context.
+			return new List<string>(await _userManager.GetRolesAsync(employee));
 		}
 
 		public bool Save()

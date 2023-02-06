@@ -10,7 +10,8 @@ namespace sber.ViewModels
 		public string Surname { get; set; }
 		public string Patronymic { get; set; }
 		public string ProfileImageUrl { get; set; }
-	
+		public IEnumerable<string> Roles { get; set; }
+
 
 	}
 }

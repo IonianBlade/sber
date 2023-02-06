@@ -8,9 +8,14 @@ namespace sber.Controllers
 	public class UserController : Controller
 	{
 		private readonly IUserRepository _userRepository;
-		public UserController(IUserRepository userRepository )
+		private readonly UserManager<Employee> _userManager;
+		private readonly RoleManager<IdentityRole> _roleManager;
+
+		public UserController(IUserRepository userRepository, UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager)
 		{
 			_userRepository = userRepository;
+			_userManager = userManager;
+			_roleManager = roleManager;
 		}
 
 		[HttpGet("Users")]
@@ -18,6 +23,7 @@ namespace sber.Controllers
 		{
 			var users = await _userRepository.GetAllEmployeesAsync();
 			List<UserViewModel> result = new List<UserViewModel>();
+			
 			foreach(var user in users)
 			{
 				var userViewModel = new UserViewModel()
@@ -27,6 +33,7 @@ namespace sber.Controllers
 					Surname = user.Surname,
 					Patronymic = user.Patronymic,
 					ProfileImageUrl = user.ProfileImageUrl,
+					Roles = await _userRepository.GetUserRoleAsync(user),
 				};
 				result.Add(userViewModel);
 			}

@@ -25,9 +25,7 @@ namespace sber.Models
 		public Employee? Employee { get; set; }
         public string? PerformerId { get; set; }
 		public Employee? Performer { get; set; }
-
-		[Column(TypeName = "NVARCHAR")]
-		[StringLength(100)]
-		public string Address { get; set; }
+        public int? BankId { get; set; }
+        public Bank? Bank { get; set; }
 	}
 }

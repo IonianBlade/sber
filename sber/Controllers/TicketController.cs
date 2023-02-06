@@ -41,9 +41,10 @@ namespace sber.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var curUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+			var curUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
 			var curDatePublishingDate = DateTime.Now;
             var defaultStatus = TicketStatus.Открыт;
+
 		    var createTicketViewModel = new CreateTicketViewModel
             {               
                 PublishingDate = curDatePublishingDate,
@@ -69,7 +70,7 @@ namespace sber.Controllers
                     PublishingDate = ticketVM.PublishingDate,
                     PlannedDate = ticketVM.PlannedDate,
                     SolvedDate = ticketVM.SolvedDate,
-                    Address = ticketVM.Address,
+                   
                 };
                 _ticketRepository.Add(ticket);
                 return RedirectToAction("Index");
@@ -103,7 +104,7 @@ namespace sber.Controllers
                 PlannedDate = ticket.PlannedDate,
                 SolvedDate = curSolvedDate,
                 URL = ticket.Image,
-                Address = ticket.Address,                
+                        
             };
 			return View(ticketVM);
 		}
@@ -132,7 +133,7 @@ namespace sber.Controllers
 						Image = photoResult.Url.ToString(),
                         PlannedDate = ticketVM.PlannedDate,
                         SolvedDate = ticketVM.SolvedDate,
-						Address = ticketVM.Address,
+		
 					};
 					_ticketRepository.Update(ticket);
 					return RedirectToAction("Index");
